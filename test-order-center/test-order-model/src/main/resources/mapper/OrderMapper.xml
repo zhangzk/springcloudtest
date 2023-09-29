@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ 
+<mapper namespace="com.example.zhangzk.ordercenter.model.mapper.OrderMapper">
+	
+	<sql id="allColumns">order_id,user_id,book_id,order_type,goods_count,create_time,update_time</sql>
+    <sql id="allColumns_alias">t.order_id,t.user_id,t.book_id,t.order_type,t.goods_count,t.create_time,t.update_time</sql>
+ 
+    <resultMap id="OrderResultMap" type="com.example.zhangzk.ordercenter.client.model.OrderBean">
+        <result column="order_id" property="orderId" />
+        <result column="user_id" property="userId" />
+        <result column="book_id" property="bookId" />
+        <result column="order_type" property="orderType"  />
+        <result column="goods_count" property="goodsCount"  />
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime" />
+    </resultMap>
+    
+    <sql id="whereSql">
+        <trim prefix="where" prefixOverrides="and">
+            <if test="orderId != null">and order_id=#{orderId}</if>
+            <if test="userId != null">and user_id=#{userId}</if>
+            <if test="bookId!=null">and book_id=#{bookId}</if>
+            <if test="orderType != null">and order_type=#{orderType}</if>
+            <if test="goodsCount != null">and goods_count=#{goodsCount}</if>
+            <if test="createTime != null">and create_time=#{createTime}</if>
+            <if test="updateTime != null">and update_time=#{updateTime}</if>
+            <if test="minCreateTime != null"><![CDATA[and create_time > #{minCreateTime}]]></if>
+            <if test="maxCreateTime != null"><![CDATA[and create_time < #{maxCreateTime}]]></if>
+            <if test="orderIdList != null">
+                and order_id in
+                <foreach collection="orderIdList" index="index" item="item" open="(" separator="," close=")">#{item}</foreach>
+            </if>
+        </trim>
+    </sql>
+    
+    <select id="getOrderList" resultMap="OrderResultMap" parameterType="java.util.Map">
+        select
+        <include refid="allColumns"/>
+        from t_order
+        where user_id=#{userId}
+        <if test="orderSort != null">
+            order by ${orderSort.fieldName} ${orderSort.sort}
+        </if>
+        <if test="orderLimit != null">
+            limit #{orderLimit.start},#{orderLimit.limit}
+        </if>
+    </select>
+    
+    <select id="findByOrderId" resultMap="OrderResultMap" parameterType="java.util.Map">
+        select
+        <include refid="allColumns"/>
+        from t_order
+        where order_id=#{orderId}
+    </select>
+ 
+    <select id="findByUserId" resultMap="OrderResultMap">
+        SELECT * FROM t_order WHERE user_id = #{userId}
+        <if test="orderSort != null">
+           order by ${orderSort.fieldName} ${orderSort.sort}
+        </if>
+        <if test="orderLimit != null">
+           limit #{orderLimit.start},#{orderLimit.limit}
+        </if>
+    </select>
+     
+    <insert id="save" parameterType="com.example.zhangzk.ordercenter.client.model.OrderBean">
+        INSERT INTO users (order_id,user_id,book_id,order_type,goods_count,create_time,update_time) 
+        VALUES (#{orderId}, #{userId},#{bookId},#{orderType},#{goodsCount},now(),now())
+    </insert>
+    
+    <update id="update" parameterType="com.example.zhangzk.ordercenter.client.model.OrderBean">
+        update t_order set update_time=now()
+            <if test="goodsCount != null">,goods_count=#{goodsCount}</if>
+            <if test="orderType != null">,order_type=#{orderType}</if>      
+        where order_id=#{orderId}
+    </update>
+ 
+</mapper>
