@@ -19,6 +19,7 @@
         <module>test-user-center</module>
         <module>test-order-center</module>
         <module>test-common</module>
+        <module>test-middle</module>
     </modules>
 
     <properties>
