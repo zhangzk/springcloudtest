@@ -1,4 +1,4 @@
-package com.example.zhangzk.ordercenter.web;
+package com.example.zhangzk.usercenter.web;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -12,10 +12,10 @@ import org.springframework.context.annotation.ComponentScan;
 @SpringBootApplication
 @ComponentScan(value = {"com.example.zhangzk.ordercenter"})
 @EnableDiscoveryClient
-public class TestOrderWebApplication {
+public class TestUserWebApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(TestOrderWebApplication.class, args);
+        SpringApplication.run(TestUserWebApplication.class, args);
     }
 
 }

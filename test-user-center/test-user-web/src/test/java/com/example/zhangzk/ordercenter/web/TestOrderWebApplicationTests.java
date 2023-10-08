@@ -1,10 +1,10 @@
-package com.example.zhangzk.testclient;
+package com.example.zhangzk.ordercenter.web;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class TestclientApplicationTests {
+class TestOrderWebApplicationTests {
 
     @Test
     void contextLoads() {

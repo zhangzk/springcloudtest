@@ -1,13 +1,13 @@
-package com.example.zhangzk.testclient;
+package com.example.zhangzk.usercenter;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class TestclientApplication {
+public class TestserviceApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(TestclientApplication.class, args);
+        SpringApplication.run(TestserviceApplication.class, args);
     }
 
 }

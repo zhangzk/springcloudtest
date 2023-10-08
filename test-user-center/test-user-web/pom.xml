@@ -9,8 +9,8 @@
         <relativePath>../../pom.xml</relativePath>
     </parent>
 
-    <artifactId>test-order-web</artifactId>
-    <name>test-order-web</name>
+    <artifactId>test-user-web</artifactId>
+    <name>test-user-web</name>
     <packaging>jar</packaging>
 
     <properties>
@@ -25,7 +25,7 @@
        
        <dependency>
             <groupId>com.example.zhangzk</groupId>
-		    <artifactId>test-order-service</artifactId>
+		    <artifactId>test-user-service</artifactId>
 		    <version>${project.version}</version>
         </dependency>
         

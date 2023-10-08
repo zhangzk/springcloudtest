@@ -15,6 +15,9 @@
 
     <modules>
         <module>test-user-client</module>
+        <module>test-user-model</module>
+        <module>test-user-service</module>
+        <module>test-user-web</module>
     </modules>
 
 </project>
