@@ -7,8 +7,6 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 
-import com.example.zhangzk.usercenter.client.common.UserLimit;
-import com.example.zhangzk.usercenter.client.common.UserSort;
 import com.example.zhangzk.usercenter.client.model.UserBean;
 
 /**
@@ -17,8 +15,18 @@ import com.example.zhangzk.usercenter.client.model.UserBean;
  */
 @Mapper
 public interface UserMapper {
-	List<UserBean> findByUserId(Long userId,UserSort orderSort,UserLimit orderLimit);
-	List<UserBean> getOrderList(Long userId,UserSort orderSort,UserLimit orderLimit);
-    void save(UserBean user);
+	UserBean findByUserId(Long userId);
+
+	UserBean findByNick(String nick);
+
+	UserBean findByEmail(String email);
+
+	UserBean findByPhone(String phone);
+
+	List<UserBean> findByUserIds(List<Long> userIdList);
+
+	void save(UserBean user);
+
+	void update(UserBean user);
 
 }

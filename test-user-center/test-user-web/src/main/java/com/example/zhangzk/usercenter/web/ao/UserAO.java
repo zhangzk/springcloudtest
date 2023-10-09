@@ -3,6 +3,8 @@
  */
 package com.example.zhangzk.usercenter.web.ao;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -18,8 +20,11 @@ public class UserAO {
 	@Autowired
 	private IUserService userService;
 
-	public UserBean getOrderByOrderId(Long orderId) {
-		return this.userService.getOrderByOrderId(orderId);
+	public List<UserBean> findByUserIds(List<Long> userIdList) {
+		return this.userService.findByUserIds(userIdList);
 	}
 
+	public UserBean findByUserId(Long userId) {
+		return this.userService.findByUserId(userId);
+	}
 }

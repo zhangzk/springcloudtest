@@ -10,7 +10,7 @@ import org.springframework.context.annotation.ComponentScan;
  *
  */
 @SpringBootApplication
-@ComponentScan(value = {"com.example.zhangzk.ordercenter"})
+@ComponentScan(value = {"com.example.zhangzk.usercenter"})
 @EnableDiscoveryClient
 public class TestUserWebApplication {
 

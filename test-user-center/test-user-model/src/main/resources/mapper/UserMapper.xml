@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ 
+<mapper namespace="com.example.zhangzk.usercenter.model.mapper.UserMapper">
+	
+	<sql id="allColumns">user_id,nick,email,phone,remark,create_time,update_time</sql>
+    <sql id="allColumns_alias">t.user_id,t.nick,t.email,t.phone,t.remark,t.create_time,t.update_time</sql>
+ 
+    <resultMap id="UserResultMap" type="com.example.zhangzk.usercenter.client.model.UserBean">
+        <result column="user_id" property="userId" />
+        <result column="nick" property="nick" />
+        <result column="email" property="email" />
+        <result column="phone" property="phone"  />
+        <result column="remark" property="remark"  />
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime" />
+    </resultMap>
+    
+    <sql id="whereSql">
+        <trim prefix="where" prefixOverrides="and">
+            <if test="orderId != null">and order_id=#{orderId}</if>
+            <if test="userId != null">and user_id=#{userId}</if>
+            <if test="bookId!=null">and book_id=#{bookId}</if>
+            <if test="orderType != null">and order_type=#{orderType}</if>
+            <if test="goodsCount != null">and goods_count=#{goodsCount}</if>
+            <if test="createTime != null">and create_time=#{createTime}</if>
+            <if test="updateTime != null">and update_time=#{updateTime}</if>
+            <if test="minCreateTime != null"><![CDATA[and create_time > #{minCreateTime}]]></if>
+            <if test="maxCreateTime != null"><![CDATA[and create_time < #{maxCreateTime}]]></if>
+            <if test="orderIdList != null">
+                and order_id in
+                <foreach collection="orderIdList" index="index" item="item" open="(" separator="," close=")">#{item}</foreach>
+            </if>
+        </trim>
+    </sql>
+    
+    <select id="getUserList" resultMap="UserResultMap" parameterType="java.util.Map">
+        select
+        <include refid="allColumns"/>
+        from t_user
+        where user_id=#{userId}
+        <if test="userSort != null">
+            order by ${userSort.fieldName} ${userSort.sort}
+        </if>
+        <if test="userLimit != null">
+            limit #{userLimit.start},#{userLimit.limit}
+        </if>
+    </select>
+    
+    <select id="findByNick" resultMap="UserResultMap" parameterType="java.util.Map">
+        select
+        <include refid="allColumns"/>
+        from t_user
+        where nick=#{nick}
+    </select>
+    
+    <select id="findByEmail" resultMap="UserResultMap" parameterType="java.util.Map">
+        select
+        <include refid="allColumns"/>
+        from t_user
+        where email=#{email}
+    </select>
+    
+    <select id="findByPhone" resultMap="UserResultMap" parameterType="java.util.Map">
+        select
+        <include refid="allColumns"/>
+        from t_user
+        where phone=#{phone}
+    </select>
+    
+    <select id="findByUserId" resultMap="UserResultMap" parameterType="java.util.Map">
+        select
+        <include refid="allColumns"/>
+        from t_user
+        where user_id=#{userId}
+    </select>
+ 
+    <select id="findByUserIds" resultMap="UserResultMap">
+        SELECT <include refid="allColumns"/>
+        FROM t_user WHERE user_id in
+        <foreach collection="userIdList" index="index" item="item" open="(" separator="," close=")">#{item}</foreach>
+    </select>
+     
+    <insert id="save" parameterType="com.example.zhangzk.usercenter.client.model.UserBean">
+        INSERT INTO t_user (user_id,nick,email,phone,remark,create_time,update_time) 
+        VALUES (#{userId}, #{nick},#{email},#{phone},#{remark},now(),now())
+    </insert>
+    
+    <update id="update" parameterType="com.example.zhangzk.usercenter.client.model.UserBean">
+        update t_user set update_time=now()
+            <if test="nick != null">,nick=#{nick}</if>
+            <if test="email != null">,email=#{email}</if>      
+            <if test="phone != null">,phone=#{phone}</if>  
+            <if test="remark != null">,remark=#{remark}</if>  
+        where user_id=#{userId}
+    </update>
+ 
+</mapper>

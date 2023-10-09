@@ -25,8 +25,8 @@ public class UserDaoTest {
 
 	  @Test
 	  void selectCityByIdTest() {
-		  UserBean city = userDao.selectOrderId(1L);
-		  System.out.println(city);
+		  UserBean user = userDao.findByUserId(1L);
+		  System.out.println(user.toString());
 	 
 	  }
 

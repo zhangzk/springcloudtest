@@ -26,11 +26,11 @@ public class UserDao {
 		this.sqlSession = sqlSession;
 	}
 
-	public UserBean selectOrderId(long orderId) {
-		log.info("orderId=" + orderId);
+	public UserBean findByUserId(long userId) {
+		log.info("userId=" + userId);
 		Map<String, Object> params = new HashMap<String, Object>();
-		params.put("orderId", orderId);
-		return this.sqlSession.selectOne("findByOrderId", params);
+		params.put("userId", userId);
+		return this.sqlSession.selectOne("findByUserId", params);
 	}
 
 }

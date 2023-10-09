@@ -5,7 +5,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-@MapperScan("com.example.zhangzk.ordercenter.model")
+@MapperScan("com.example.zhangzk.usercenter.model")
 public class TestmodelApplication {
 
     public static void main(String[] args) {

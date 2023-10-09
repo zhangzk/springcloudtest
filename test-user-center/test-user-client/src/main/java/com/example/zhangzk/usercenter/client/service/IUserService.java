@@ -5,8 +5,6 @@ package com.example.zhangzk.usercenter.client.service;
 
 import java.util.List;
 
-import com.example.zhangzk.usercenter.client.common.UserLimit;
-import com.example.zhangzk.usercenter.client.common.UserSort;
 import com.example.zhangzk.usercenter.client.model.UserBean;
 
 /**
@@ -14,8 +12,8 @@ import com.example.zhangzk.usercenter.client.model.UserBean;
  *
  */
 public interface IUserService {
-    public UserBean getOrderByOrderId(Long orderId);
+    public UserBean findByUserId(Long userId);
     
-    public List<UserBean> getOrderList(Long userId,UserSort userSort,UserLimit userLimit);
+    public List<UserBean> findByUserIds(List<Long> userIdList);
 
 }
