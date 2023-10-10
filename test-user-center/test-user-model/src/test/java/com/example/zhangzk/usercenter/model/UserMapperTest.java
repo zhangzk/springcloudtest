@@ -12,14 +12,15 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
+import org.springframework.test.annotation.Commit;
 import org.springframework.util.CollectionUtils;
 
 import com.example.zhangzk.usercenter.client.model.UserBean;
 import com.example.zhangzk.usercenter.model.mapper.UserMapper;
 
 /**
+ * 单元测试的代码会自动回滚事务，可以直接在方法上加上 @Rollback(false) 或者 @Commit ，这样事务就不会回滚了
  * @author zhangzhaokun
- *
  */
 @MybatisTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE) 
@@ -42,6 +43,17 @@ public class UserMapperTest {
 			  userList.forEach(u->log.info(u.toString()));	  
 			  
 		  }
+	  }
+	  
+	  @Test
+	  @Commit
+	  void saveTest() {
+		  UserBean u = new UserBean();
+		  u.setEmail("13590343576@139.com");
+		  u.setPhone("13316822611");
+		  u.setNick("nick"+System.currentTimeMillis());
+		  u.setRemark("zhangzk test");
+		  this.userMapper.save(u);
 	  }
 
 }

@@ -17,5 +17,4 @@ public class TestUserWebApplication {
     public static void main(String[] args) {
         SpringApplication.run(TestUserWebApplication.class, args);
     }
-
 }

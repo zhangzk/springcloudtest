@@ -1,40 +1,27 @@
 /**
  * 
  */
-package com.example.zhangzk.ordercenter.web.proxy;
+package com.example.zhangzk.usercenter.api;
 
-import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.example.zhangzk.common.TestResult;
 import com.example.zhangzk.usercenter.client.model.UserBean;
-
-import feign.Request;
 
 /**
  * @author zhangzhaokun
  *
  */
-//name：调⽤的服务名称，和服务提供者yml⽂件中spring.application.name保持⼀致
-//path: 定义当前FeignClient的统一前缀
-@FeignClient(name = "test-user-web",path = "/user")
-public interface UserRemoteService extends MemberRemoteService  {
+@RequestMapping("/user")
+public interface UserAPIService {
 
 	@GetMapping("/get/{userId}")
 	public TestResult<UserBean> getUserInfo(@PathVariable("userId") Long userId);
-	
-	/**
-	 * 为接口级别使用专门的配置信息
-	 * @param options
-	 * @param userId
-	 * @return
-	 */
-	@GetMapping("/get/{userId}")
-	public TestResult<UserBean> getUserInfo(Request.Options options,@PathVariable("userId") Long userId);
-	
+		
 	@PostMapping("/add")
 	public TestResult<Void> addUser(@RequestBody UserBean user);
 	

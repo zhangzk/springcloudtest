@@ -29,6 +29,12 @@
 		    <version>${project.version}</version>
         </dependency>
         
+       <dependency>
+            <groupId>com.example.zhangzk</groupId>
+		    <artifactId>test-user-api</artifactId>
+		    <version>${project.version}</version>
+        </dependency>
+        
         <!-- SpringBoot web组件 -->
         <dependency>
             <groupId>org.springframework.boot</groupId>

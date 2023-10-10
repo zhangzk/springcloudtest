@@ -73,7 +73,7 @@ public class OrderController {
 		//设置访问的Entity
         HttpEntity<Object> entity = new HttpEntity<Object>(params, headers);
 
-    	ResponseEntity<TestResult<UserBean>>  resEntity = restTemplate.exchange("http://test-user-web/user/get/" + userId,HttpMethod.GET,entity,new ParameterizedTypeReference<TestResult<UserBean>>() {} );
+    	ResponseEntity<TestResult<UserBean>>  resEntity = restTemplate.exchange("http://test-user-web/user/get/{1}",HttpMethod.GET,entity,new ParameterizedTypeReference<TestResult<UserBean>>() {} ,userId);
     	TestResult<UserBean> ret = resEntity.getBody();
     	if( ret.getStatus() == 0) {
     		return ret.getData();

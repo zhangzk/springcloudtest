@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ 
+<mapper namespace="com.example.zhangzk.usercenter.model.mapper.MemberMapper">
+	
+	<sql id="allColumns"> `user_id`,`member_type`,`first_buy_time`,`last_buy_time`,`expire_buy_time`,`first_discount_time`,`last_discount_time`,`expire_time`,`remark`,`create_time`,`update_time`</sql>
+    
+   
+    <resultMap id="MemberResultMap" type="com.example.zhangzk.usercenter.client.model.MemberBean">
+		<result column="user_id" property="userId" />
+        <result column="member_type" property="memberType" />
+        <result column="first_buy_time" property="firstBuyTime" />
+        <result column="last_buy_time" property="lastBuyTime" />
+        <result column="expire_buy_time" property="expireBuyTime"  />
+        <result column="first_discount_time" property="firstDiscountTime" />
+        <result column="last_discount_time" property="lastDiscountTime" />
+        <result column="expire_time" property="expireTime"  />
+        <result column="remark" property="remark"  />
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime" />
+    </resultMap>
+    
+
+    
+    <select id="findByMemberType" resultMap="MemberResultMap" parameterType="java.util.Map">
+        select
+        <include refid="allColumns"/>
+        from t_member
+        where member_type=#{memberType}
+        <if test="userSort != null">
+            order by ${userSort.fieldName} ${userSort.sort}
+        </if>
+        <if test="userLimit != null">
+            limit #{userLimit.start},#{userLimit.limit}
+        </if>
+    </select>
+    
+    
+    <select id="findByUserId" resultMap="MemberResultMap" parameterType="java.util.Map">
+        select
+        <include refid="allColumns"/>
+        from t_member
+        where user_id=#{userId}
+    </select>
+ 
+    <select id="findByUserIds" resultMap="MemberResultMap">
+        SELECT <include refid="allColumns"/>
+        FROM t_member WHERE user_id in
+        <foreach collection="userIdList" index="index" item="item" open="(" separator="," close=")">#{item}</foreach>
+    </select>
+     
+    <insert id="save" parameterType="com.example.zhangzk.usercenter.client.model.MemberBean">
+		INSERT INTO `test`.`t_member`
+			(`user_id`,
+			`member_type`,
+			`first_buy_time`,
+			`last_buy_time`,
+			`expire_buy_time`,
+			`first_discount_time`,
+			`last_discount_time`,
+			`expire_time`,
+			`remark`,
+			`create_time`,
+			`update_time`)
+		VALUES
+			(#{userId},
+			#{memberType},
+			#{firstBuyTime},
+			#{lastBuyTime},
+			#{expireBuyTime},
+			#{firstDiscountTime},
+			#{lastDiscountTime},
+			#{expireTime},
+			#{remark},
+			now(),
+			now());
+
+    </insert>
+    
+    <update id="update" parameterType="com.example.zhangzk.usercenter.client.model.MemberBean">
+        update `test`.`t_member` set update_time=now()
+            <if test="memberType != null">,member_type=#{memberType}</if>      
+            <if test="firstBuyTime != null">,first_buy_time=#{firstBuyTime}</if>  
+            <if test="lastBuyTime != null">,last_buy_time=#{lastBuyTime}</if> 
+            <if test="expireBuyTime != null">,expire_buy_time=#{expireBuyTime}</if>
+            <if test="firstDiscountTime != null">,first_discount_time=#{firstDiscountTime}</if>      
+            <if test="lastDiscountTime != null">,last_discount_time=#{lastDiscountTime}</if>  
+            <if test="expireTime != null">,expire_time=#{expireTime}</if> 
+            <if test="remark != null">,remark=#{remark}</if>  
+        where user_id=#{userId}
+    </update>
+ 
+</mapper>
