@@ -44,6 +44,12 @@ public class MemberController implements IMemberAPIService {
  
     public TestResult<Void> addMember(@RequestBody MemberBean member) {
     	log.info("post request," + member);
+    	try {
+			Thread.sleep(22000L);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
     	return this.memberService.addMember(member);
     	
     }

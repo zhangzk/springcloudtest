@@ -9,11 +9,14 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
 import com.example.zhangzk.common.TestResult;
+import com.example.zhangzk.usercenter.client.dto.UserMemberDTO;
 import com.example.zhangzk.usercenter.client.model.UserBean;
 import com.example.zhangzk.usercenter.client.service.IUserService;
+import com.example.zhangzk.usercenter.model.mapper.MemberMapper;
 import com.example.zhangzk.usercenter.model.mapper.UserMapper;
 
 /**
@@ -21,11 +24,15 @@ import com.example.zhangzk.usercenter.model.mapper.UserMapper;
  *
  */
 @Service
+@Transactional
 public class UserService implements IUserService {
 	private Logger log = LoggerFactory.getLogger(UserService.class);
 
 	@Autowired
 	private UserMapper userMapper;
+	
+	@Autowired
+	private MemberMapper memberMapper;
 
 	@Override
 	public UserBean findByUserId(Long userId) {
@@ -59,6 +66,27 @@ public class UserService implements IUserService {
 
 	public TestResult<Void> addUser(UserBean user) {
 		log.info("post request," + user);
+		TestResult<Void> result = checkAdd(user);
+		if(!result.isSuccess()) {
+			return result;
+		}
+
+		userMapper.save(user);
+		return result;
+	}
+	
+	public TestResult<Void> addMember(UserBean user) {
+		log.info("post request," + user);
+		TestResult<Void> result = checkAdd(user);
+		if(!result.isSuccess()) {
+			return result;
+		}
+
+		userMapper.save(user);
+		return result;
+	}
+
+	private TestResult<Void> checkAdd(UserBean user) {
 		TestResult<Void> result = new TestResult<Void>();
 
 		// 参数为空
@@ -69,8 +97,8 @@ public class UserService implements IUserService {
 		}
 
 		// 检查必填字段
-		if (StringUtils.hasLength(user.getEmail()) || StringUtils.hasLength(user.getNick())
-				|| StringUtils.hasLength(user.getPhone())) {
+		if (!StringUtils.hasLength(user.getEmail()) || !StringUtils.hasLength(user.getNick())
+				|| !StringUtils.hasLength(user.getPhone())) {
 			result.setStatus(1);
 			result.setMsg("EMAIL or NICK or PHONE is empty.");
 			return result;
@@ -96,10 +124,6 @@ public class UserService implements IUserService {
 			result.setMsg("PHONE existed.");
 			return result;
 		}
-
-		userMapper.save(user);
-		result.setStatus(0);
-		result.setMsg("SUCCESS");
 		return result;
 	}
 
@@ -115,8 +139,8 @@ public class UserService implements IUserService {
 		}
 
 		// 检查必填字段
-		if (StringUtils.hasLength(user.getEmail()) || StringUtils.hasLength(user.getNick())
-				|| StringUtils.hasLength(user.getPhone())) {
+		if (!StringUtils.hasLength(user.getEmail()) || !StringUtils.hasLength(user.getNick())
+				|| !StringUtils.hasLength(user.getPhone())) {
 			result.setStatus(1);
 			result.setMsg("EMAIL or NICK or PHONE is empty.");
 			return result;
@@ -168,6 +192,18 @@ public class UserService implements IUserService {
 		this.userMapper.update(user);
 		result.setStatus(0);
 		result.setMsg("SUCCESS");
+		return result;
+	}
+
+	@Override
+	public TestResult<Void> addUserAndMember(UserMemberDTO umDTO) {
+		log.info("post request," + umDTO);
+		TestResult<Void> result = checkAdd(umDTO.getUser());
+		if(!result.isSuccess()) {
+			return result;
+		}
+		this.userMapper.save(umDTO.getUser());
+		this.memberMapper.save(umDTO.getMember());
 		return result;
 	}
 

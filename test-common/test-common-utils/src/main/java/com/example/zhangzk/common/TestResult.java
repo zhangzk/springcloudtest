@@ -7,11 +7,23 @@ package com.example.zhangzk.common;
  * @author zhangzhaokun
  *
  */
-public class TestResult<T> implements java.io.Serializable {
+public class TestResult<T> extends BaseBean implements java.io.Serializable {
 	private static final long serialVersionUID = 1L;
-	private Integer status;
-	private String msg;
+	/**
+	 * 默认0表示成功
+	 */
+	private Integer status = 0;
+	private String msg = "SUCCESS";
 	private T data;
+	
+	public boolean isSuccess() {
+		return this.status == 0;
+	}
+	
+	public boolean hasData() {
+		return this.data == null;
+	}
+	
 	public Integer getStatus() {
 		return status;
 	}

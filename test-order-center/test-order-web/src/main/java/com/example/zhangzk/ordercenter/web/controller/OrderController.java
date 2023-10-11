@@ -5,6 +5,8 @@ package com.example.zhangzk.ordercenter.web.controller;
 
 import java.util.HashMap;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpEntity;
@@ -20,7 +22,9 @@ import org.springframework.web.client.RestTemplate;
 import com.example.zhangzk.common.TestResult;
 import com.example.zhangzk.ordercenter.client.model.OrderBean;
 import com.example.zhangzk.ordercenter.web.ao.UserAO;
-import com.example.zhangzk.ordercenter.web.proxy.UserRemoteService;
+import com.example.zhangzk.ordercenter.web.proxy.UserServiceProxy;
+import com.example.zhangzk.usercenter.client.dto.UserMemberDTO;
+import com.example.zhangzk.usercenter.client.model.MemberBean;
 import com.example.zhangzk.usercenter.client.model.UserBean;
 
 /**
@@ -31,8 +35,10 @@ import com.example.zhangzk.usercenter.client.model.UserBean;
 @RestController
 @RequestMapping("/order")
 public class OrderController {
+	private Logger log = LoggerFactory.getLogger(OrderController.class);
+	
     @Autowired
-	private UserRemoteService userRemoteService;
+	private UserServiceProxy iUserRemoteService;
 
     @Autowired
     private UserAO userAO;
@@ -52,7 +58,7 @@ public class OrderController {
     
     @GetMapping("/feign/user/{userId}")
     public UserBean getFeignOrderUserInfo(@PathVariable("userId") Long userId) {
-    	TestResult<UserBean> ret = this.userRemoteService.getUserInfo(userId);
+    	TestResult<UserBean> ret = this.iUserRemoteService.getUserInfo(userId);
     	if( ret.getStatus() == 0) {
     		return ret.getData();
     	}else {
@@ -87,13 +93,37 @@ public class OrderController {
     public OrderBean getUserByName(Long orderId) {
         return userAO.getOrderByOrderId(orderId);
     }
-//	@Autowired
-//	private UserService userService;
-//    
-//    @GetMapping("/get")
-//    public OrderBean getUserByName(Long orderId) {
-//        System.out.println(userService.getOrderByOrderId(1L)); ;
-//        return new OrderBean();
-//    }
+    
+	@GetMapping("/member/addUserMember/{userId}")
+	public UserMemberDTO addUserMember(@PathVariable("userId") Long userId) {
+		UserMemberDTO umDTO = new UserMemberDTO();
+		
+		try {
+			MemberBean m = new MemberBean();
+			m.setUserId(userId);
+			m.setMemberType(1);
+			m.setRemark("remark " + userId);
+			umDTO.setMember(m);
+			
+			UserBean u = new UserBean();
+			u.setUserId(userId);
+			u.setNick("nick" + userId);
+			u.setPhone(String.valueOf(13927482039L + userId));
+			u.setEmail("hope"+userId + "@hotmail.com");
+			u.setRemark("remark"+userId);
+			umDTO.setUser(u);
+			
+			TestResult<Void> result = this.iUserRemoteService.addUserMember(umDTO);
+			if(!result.isSuccess()) {
+				log.info("add failed. errorMsg=" + result);
+			}else {
+				log.info("add success.");
+			}
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return umDTO;
+	}
 
 }

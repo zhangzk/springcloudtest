@@ -6,6 +6,7 @@ package com.example.zhangzk.usercenter.client.service;
 import java.util.List;
 
 import com.example.zhangzk.common.TestResult;
+import com.example.zhangzk.usercenter.client.dto.UserMemberDTO;
 import com.example.zhangzk.usercenter.client.model.UserBean;
 
 /**
@@ -25,6 +26,8 @@ public interface IUserService {
 	public List<UserBean> findByUserIds(List<Long> userIdList);
 
 	public TestResult<Void> addUser(UserBean user);
+	
+	public TestResult<Void> addUserAndMember(UserMemberDTO umDTO);
 
 	public TestResult<Void> updateUser(UserBean user);
 

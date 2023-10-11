@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.zhangzk.common.TestResult;
+import com.example.zhangzk.usercenter.client.dto.UserMemberDTO;
 import com.example.zhangzk.usercenter.client.model.UserBean;
 import com.example.zhangzk.usercenter.service.UserService;
 import com.example.zhangzk.usercenter.web.ao.UserAO;
@@ -51,6 +52,13 @@ public class UserController {
     public TestResult<Void> addUser(@RequestBody UserBean user) {
     	log.info("post request," + user);
     	return userService.addUser(user);
+    	
+    }
+    
+    @PostMapping("/addUserMember")
+    public TestResult<Void> addUserMember(@RequestBody UserMemberDTO utDTO) {
+    	log.info("post request," + utDTO);
+    	return userService.addUserAndMember(utDTO);
     	
     }
     
