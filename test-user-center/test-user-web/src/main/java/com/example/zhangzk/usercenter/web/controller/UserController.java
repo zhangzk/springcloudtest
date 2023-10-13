@@ -3,6 +3,9 @@
  */
 package com.example.zhangzk.usercenter.web.controller;
 
+import java.util.Enumeration;
+import java.util.Iterator;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,12 +15,16 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
 import com.example.zhangzk.common.TestResult;
 import com.example.zhangzk.usercenter.client.dto.UserMemberDTO;
 import com.example.zhangzk.usercenter.client.model.UserBean;
 import com.example.zhangzk.usercenter.service.UserService;
 import com.example.zhangzk.usercenter.web.ao.UserAO;
+
+import jakarta.servlet.http.HttpServletRequest;
 
 /**
  * @author zhangzhaokun
@@ -39,6 +46,23 @@ public class UserController {
     @GetMapping("/get/{userId}")
     public TestResult<UserBean> getUserInfo(@PathVariable("userId") Long userId) {
     	log.info("request,userId=" + userId);
+    	
+    	ServletRequestAttributes requestAttributes = (ServletRequestAttributes)RequestContextHolder.getRequestAttributes();
+    	HttpServletRequest request = requestAttributes.getRequest();
+		
+    	
+    	//输出全部的header
+    	Iterator<String> it = request.getHeaderNames().asIterator();
+		while(it.hasNext()) {	
+    		String key = it.next();
+			log.info("header:" + key + ";value=" + request.getHeader(key));
+    	}
+		
+		//输出参数
+		log.info("request,queryString: " + request.getQueryString());
+
+
+    	
     	TestResult<UserBean> result = new TestResult<UserBean>();
         UserBean user = userAO.findByUserId(userId);
         result.setStatus(0);

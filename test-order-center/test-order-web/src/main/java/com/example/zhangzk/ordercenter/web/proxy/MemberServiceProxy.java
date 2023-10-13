@@ -3,8 +3,6 @@
  */
 package com.example.zhangzk.ordercenter.web.proxy;
 
-import org.springframework.cloud.openfeign.FeignClient;
-
 import com.example.zhangzk.usercenter.api.IMemberAPIService;
 
 /**

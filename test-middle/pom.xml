@@ -15,6 +15,7 @@
 
     <modules>
         <module>test-eureka-server</module>
+        <module>test-springcloud-gateway</module>
     </modules>
 
 </project>
