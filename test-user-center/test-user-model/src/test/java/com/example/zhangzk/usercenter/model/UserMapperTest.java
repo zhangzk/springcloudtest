@@ -29,6 +29,13 @@ public class UserMapperTest {
 	
 	  @Autowired
 	  private UserMapper userMapper;
+	  
+	  @Test
+	  void findByEmail() {
+		  UserBean user = this.userMapper.findByEmail("hope29@hotmail.com");
+		  
+		  log.info(user.toString());
+	  }
 
 	  @Test
 	  void findByUserIdTest() {

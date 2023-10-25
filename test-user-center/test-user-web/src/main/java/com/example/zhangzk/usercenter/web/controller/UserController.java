@@ -3,7 +3,6 @@
  */
 package com.example.zhangzk.usercenter.web.controller;
 
-import java.util.Enumeration;
 import java.util.Iterator;
 
 import org.slf4j.Logger;
@@ -85,6 +84,7 @@ public class UserController {
     	return userService.addUserAndMember(utDTO);
     	
     }
+    
     
     @PostMapping("/update")
     public TestResult<Void> updateUser(@RequestBody UserBean user) {
