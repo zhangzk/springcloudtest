@@ -20,6 +20,7 @@
         <module>test-order-center</module>
         <module>test-common</module>
         <module>test-middle</module>
+        <module>test-helloworld</module>
     </modules>
 
     <properties>

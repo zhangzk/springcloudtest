@@ -45,6 +45,12 @@
 			<artifactId>test-order-service</artifactId>
 			<version>${project.version}</version>
 		</dependency>
+		
+		<dependency>
+			<groupId>com.example.zhangzk</groupId>
+			<artifactId>test-autoconfig</artifactId>
+			<version>${project.version}</version>
+		</dependency>
 
 		<!-- SpringBoot web组件 -->
 		<dependency>
@@ -66,7 +72,8 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
-		</dependency>
+		</dependency>		
+		
 	</dependencies>
 
 	<build>
